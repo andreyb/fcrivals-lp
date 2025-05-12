@@ -19,7 +19,7 @@ const Hero = () => {
           <div className="space-y-4 text-center">
             <h1 className="font-heading text-4xl md:text-6xl font-bold leading-tight">
               <span className="text-transparent bg-clip-text gamer-gradient">fcRivals</span> or it didn't happen.
-              {/* <br className="hidden sm:block" /> Track matches. Prove you run the group. */}
+              <br className="hidden sm:block" /> Track matches. Prove you run the group.
             </h1>
             <p className="text-lg md:text-xl text-foreground/80 max-w-2xl mx-auto">
               Log every game, offline or online.
