@@ -1,0 +1,11 @@
+{
+  "name": "fcRivals Dev Container",
+  "features": {
+    "ghcr.io/devcontainers/features/env-vars:1": {
+      "envVars": [
+        "VITE_PUBLIC_POSTHOG_KEY",
+        "VITE_PUBLIC_POSTHOG_HOST"
+      ]
+    }
+  }
+}
