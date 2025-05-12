@@ -3,8 +3,12 @@ import React from 'react';
 import { Button } from '@/components/ui/button';
 import { ArrowRight } from 'lucide-react';
 import appScreen1 from '@/assets/screen1.png';
+import { usePostHog, useFeatureFlagVariantKey } from 'posthog-js/react';
 
 const Hero = () => {
+  const posthog = usePostHog();
+  const variant = useFeatureFlagVariantKey('landing_headline_test');
+
   return (
     <section className="relative min-h-[90vh] pt-24 flex flex-col justify-center overflow-hidden">
       {/* Background elements */}
@@ -17,22 +21,32 @@ const Hero = () => {
       <div className="container max-w-6xl mx-auto px-4">
         <div className="flex flex-col space-y-8 md:space-y-12">
           <div className="space-y-4 text-center">
+
             <h1 className="font-heading text-4xl md:text-6xl font-bold leading-tight">
               <span className="text-transparent bg-clip-text gamer-gradient">fcRivals</span> or it didn't happen.
-              <br className="hidden sm:block" /> Track matches. Prove you run the group.
+              <br className="hidden sm:block" />
+              {variant === 'test'
+                ? 'Track your wins.'
+                : 'Prove you run the group.'}
             </h1>
+
             <p className="text-lg md:text-xl text-foreground/80 max-w-2xl mx-auto">
               Log every game, offline or online.
               Build leaderboards, track streaks, even record rage quits.
               It’s all saved — no excuses, no lost history.
 
-              <br/><b>Forget “trust me, bro.”
-              fcRivals shows who’s really on top.</b>
+              <br /><b>Forget “trust me, bro.”
+                fcRivals shows who’s really on top.</b>
             </p>
           </div>
 
           <div className="flex justify-center items-center">
-            <Button size="lg" className="w-full sm:w-auto button-glow px-8 py-6 text-base bg-primary hover:bg-primary/90" onClick={() => window.open('https://fcrivals.com', '_blank')}>
+            <Button size="lg" className="w-full sm:w-auto button-glow px-8 py-6 text-base bg-primary hover:bg-primary/90" onClick={() => {
+              posthog.capture('CTA_click', {
+                variant,
+              });
+              window.open('https://fcrivals.com', '_blank');
+            }}>
               Join Free <ArrowRight size={18} className="ml-2" />
             </Button>
           </div>
