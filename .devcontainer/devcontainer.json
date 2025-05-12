@@ -1,11 +1,4 @@
 {
-  "name": "fcRivals Dev Container",
-  "features": {
-    "ghcr.io/devcontainers/features/env-vars:1": {
-      "envVars": [
-        "REACT_APP_PUBLIC_POSTHOG_KEY",
-        "REACT_APP_PUBLIC_POSTHOG_HOST"
-      ]
-    }
-  }
+  "name": "fcRivals Dev",
+  "image": "mcr.microsoft.com/devcontainers/typescript-node:18"
 }

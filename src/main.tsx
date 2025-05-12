@@ -1,10 +1,21 @@
+import React from 'react';
 import { createRoot } from 'react-dom/client'
 import App from './App.tsx'
 import './index.css'
-import posthog from 'posthog-js';
 
-posthog.init(import.meta.env.VITE_PUBLIC_POSTHOG_KEY, {
+import { PostHogProvider } from 'posthog-js/react';
+
+const options = {
     api_host: import.meta.env.VITE_PUBLIC_POSTHOG_HOST,
-});
+}
 
-createRoot(document.getElementById("root")!).render(<App />);
+createRoot(document.getElementById("root")!).render(
+    <React.StrictMode>
+        <PostHogProvider
+            apiKey={import.meta.env.VITE_PUBLIC_POSTHOG_KEY}
+            options={options}
+        >
+            <App />
+        </PostHogProvider>
+    </React.StrictMode>
+);
