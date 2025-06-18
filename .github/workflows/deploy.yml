@@ -11,6 +11,7 @@ permissions:
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
+    environment: github-pages
 
     steps:
       - name: Checkout repository
@@ -26,6 +27,9 @@ jobs:
 
       - name: Build the site
         run: npm run build
+        env:
+          VITE_PUBLIC_POSTHOG_KEY: ${{ secrets.VITE_PUBLIC_POSTHOG_KEY }}
+          VITE_PUBLIC_POSTHOG_HOST: ${{ secrets.VITE_PUBLIC_POSTHOG_HOST }}
 
       - name: Copy fallback for SPA routing
         run: cp dist/index.html dist/404.html
