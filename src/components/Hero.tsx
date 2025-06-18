@@ -10,7 +10,11 @@ const Hero = () => {
   const [flagsReady, setFlagsReady] = useState(false);
 
   useEffect(() => {
-    if (!posthog) return;
+    // If no PostHog, just use default content
+    if (!posthog) {
+      setFlagsReady(true);
+      return;
+    }
     
     // Check if we have bootstrapped flags (returning visitors)
     const hasBootstrapFlags = localStorage.getItem('posthog_feature_flags');
@@ -39,6 +43,9 @@ const Hero = () => {
     }
   }, [posthog]);
 
+  // Default to control variant if no PostHog
+  const effectiveVariant = posthog ? variant : 'control';
+
   return (
     <section className="relative min-h-[90vh] pt-24 flex flex-col justify-center overflow-hidden">
       {/* Background elements */}
@@ -62,7 +69,7 @@ const Hero = () => {
                 }`}
                 style={{ minHeight: '1.2em', display: 'inline-block' }}
               >
-                {flagsReady && (variant === 'test'
+                {flagsReady && (effectiveVariant === 'test'
                   ? 'Track your wins.'
                   : 'Prove you run the group.')}
               </span>
@@ -83,9 +90,9 @@ const Hero = () => {
               size="lg" 
               className="w-full sm:w-auto button-glow px-8 py-6 text-base bg-primary hover:bg-primary/90" 
               onClick={() => {
-                if (flagsReady) {
+                if (posthog && flagsReady) {
                   posthog.capture('CTA_click', {
-                    variant,
+                    variant: effectiveVariant,
                     flags_ready: true,
                     is_returning_visitor: !!localStorage.getItem('posthog_feature_flags')
                   });
