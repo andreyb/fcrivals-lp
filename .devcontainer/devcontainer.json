@@ -1,4 +1,5 @@
 {
   "name": "fcRivals Dev",
-  "image": "mcr.microsoft.com/devcontainers/typescript-node:18"
+  "image": "mcr.microsoft.com/devcontainers/typescript-node:18",
+  "postCreateCommand": "git config --global user.name 'Andrey (Container fcRivals Dev)' && git config --global user.email 'andrey.batasov@yahoo.com'"
 }

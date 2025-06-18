@@ -30,6 +30,9 @@ jobs:
       - name: Copy fallback for SPA routing
         run: cp dist/index.html dist/404.html
 
+      - name: Create CNAME for custom domain
+        run: echo 'start.fcrivals.com' > dist/CNAME
+
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
