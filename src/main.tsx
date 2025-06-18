@@ -5,6 +5,12 @@ import './index.css'
 
 import { PostHogProvider } from 'posthog-js/react';
 
+// Ensure PostHog key exists
+const POSTHOG_KEY = import.meta.env.VITE_PUBLIC_POSTHOG_KEY;
+if (!POSTHOG_KEY) {
+    console.error('[PostHog] Missing VITE_PUBLIC_POSTHOG_KEY environment variable');
+}
+
 // Bootstrap flags from localStorage for returning visitors
 const getBootstrapFlags = () => {
     try {
@@ -25,7 +31,7 @@ const getBootstrapFlags = () => {
 };
 
 const options = {
-    api_host: import.meta.env.VITE_PUBLIC_POSTHOG_HOST,
+    api_host: import.meta.env.VITE_PUBLIC_POSTHOG_HOST || 'https://app.posthog.com',
     bootstrap: getBootstrapFlags(),
     loaded: (posthog: any) => {
         // Cache flags for next visit after they're loaded
@@ -43,13 +49,18 @@ const options = {
     }
 }
 
+// Only render PostHog if we have a key
 createRoot(document.getElementById("root")!).render(
     <React.StrictMode>
-        <PostHogProvider
-            apiKey={import.meta.env.VITE_PUBLIC_POSTHOG_KEY}
-            options={options}
-        >
+        {POSTHOG_KEY ? (
+            <PostHogProvider
+                apiKey={POSTHOG_KEY}
+                options={options}
+            >
+                <App />
+            </PostHogProvider>
+        ) : (
             <App />
-        </PostHogProvider>
+        )}
     </React.StrictMode>
 );
