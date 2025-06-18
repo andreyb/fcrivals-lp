@@ -1,12 +1,14 @@
 # fcRivals Landing Page
 
-This is the source code for the **fcRivals landing page**, built with **Vite**, **React**, and deployed via **GitHub Pages**.
+This is the source code for the **fcRivals landing page**, built with **Vite**, **React**, and deployed via **GitHub Pages** with a custom domain.
 
 ---
 
 ## 🚀 Live Site
 
-[https://andreyb.github.io/fcrivals-lp/](https://andreyb.github.io/fcrivals-lp/)
+**Custom Domain**: [https://start.fcrivals.com/](https://start.fcrivals.com/)
+
+**GitHub Pages URL**: [https://andreyb.github.io/fcrivals-lp/](https://andreyb.github.io/fcrivals-lp/)
 
 ---
 
@@ -35,7 +37,8 @@ Whenever you push to the `main` branch:
 
    * Build the app (`vite build`)
    * Copy `index.html` to `404.html` for SPA routing
-   * Deploy contents of `/dist` to the `gh-pages` branch using the `gh-pages` package
+   * Deploy contents of `/dist` to the `gh-pages` branch
+   * Serve the site at `start.fcrivals.com` via custom domain
 
 ---
 
@@ -44,10 +47,14 @@ Whenever you push to the `main` branch:
 If you ever need to deploy manually:
 
 ```bash
-npm run build
-cp dist/index.html dist/404.html
 npm run deploy
 ```
+
+This command will:
+* Build the app
+* Create CNAME file for custom domain
+* Copy fallback 404 page
+* Deploy using gh-pages
 
 ---
 
@@ -58,14 +65,15 @@ Stored in `.github/workflows/deploy.yml`, it automatically:
 * Installs dependencies
 * Builds the site
 * Copies the fallback 404 page
-* Deploys using `gh-pages`
+* Deploys using `peaceiris/actions-gh-pages@v3`
 
 ---
 
-## 🧩 Notes
+## 🧩 Configuration Notes
 
-* `vite.config.ts` sets `base: './'` because absolute paths caused issues with GitHub Pages subpath handling
-* React Router uses `<BrowserRouter basename="/fcrivals-lp">`
+* `vite.config.ts` uses `base: '/'` for custom domain setup
+* React Router uses standard `<BrowserRouter>` (no basename needed for custom domain)
+* Custom domain `start.fcrivals.com` is configured via CNAME file
 * Static assets are placed in `dist/assets/` during build
 
 ---
