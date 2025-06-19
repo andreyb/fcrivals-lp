@@ -25,14 +25,27 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Debug environment variables
+        run: |
+          echo "Checking PostHog environment variables..."
+          echo "PostHog key is set: $(if [ -n "$VITE_PUBLIC_POSTHOG_KEY" ]; then echo "YES (length: ${#VITE_PUBLIC_POSTHOG_KEY})"; else echo "NO"; fi)"
+          echo "PostHog host is set: $(if [ -n "$VITE_PUBLIC_POSTHOG_HOST" ]; then echo "YES ($VITE_PUBLIC_POSTHOG_HOST)"; else echo "NO"; fi)"
+        env:
+          VITE_PUBLIC_POSTHOG_KEY: ${{ secrets.VITE_PUBLIC_POSTHOG_KEY }}
+          VITE_PUBLIC_POSTHOG_HOST: ${{ secrets.VITE_PUBLIC_POSTHOG_HOST }}
+
       - name: Build the site
         run: npm run build
         env:
           VITE_PUBLIC_POSTHOG_KEY: ${{ secrets.VITE_PUBLIC_POSTHOG_KEY }}
           VITE_PUBLIC_POSTHOG_HOST: ${{ secrets.VITE_PUBLIC_POSTHOG_HOST }}
 
-      - name: Copy fallback for SPA routing
-        run: cp dist/index.html dist/404.html
+      - name: Setup SPA routing fallback
+        run: |
+          # Copy index.html to 404.html for SPA routing
+          cp dist/index.html dist/404.html
+          # Create .nojekyll to prevent GitHub Pages from ignoring files with underscores
+          touch dist/.nojekyll
 
       - name: Create CNAME for custom domain
         run: echo 'start.fcrivals.com' > dist/CNAME
