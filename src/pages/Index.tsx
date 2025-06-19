@@ -1,13 +1,13 @@
 
 import React from 'react';
-import Header from '@/components/Header';
-import Hero from '@/components/Hero';
-import Features from '@/components/Features';
-import StatsPreview from '@/components/StatsPreview';
-import Testimonials from '@/components/Testimonials';
-import BottomCTA from '@/components/BottomCTA';
-import Footer from '@/components/Footer';
-import FloatingCTA from '@/components/FloatingCTA';
+import Header from '../variants/a/components/Header';
+import Hero from '../variants/a/components/Hero';
+import Features from '../variants/a/components/Features';
+import StatsPreview from '../variants/a/components/StatsPreview';
+import Testimonials from '../variants/a/components/Testimonials';
+import BottomCTA from '../variants/a/components/BottomCTA';
+import Footer from '../variants/a/components/Footer';
+import FloatingCTA from '../variants/a/components/FloatingCTA';
 
 const Index = () => {
   return (

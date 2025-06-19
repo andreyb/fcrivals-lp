@@ -1,237 +1,145 @@
-# fcRivals Landing Page
+# 🎯 fcRivals Landing Page A/B Testing Repository
 
-This is the source code for the **fcRivals landing page**, built with **Vite**, **React**, and **TypeScript**, deployed via **GitHub Pages** with a custom domain.
+**Convert visitors faster with scientifically tested landing page variants.**
 
-## 🚀 Live Site
+This repository enables you to create unlimited isolated landing page variants from your Lovable.dev projects and run proper A/B tests with PostHog analytics.
 
-**Custom Domain**: [https://start.fcrivals.com/](https://start.fcrivals.com/)
+## 🚀 Quick Start
 
-**GitHub Pages URL**: [https://andreyb.github.io/fcrivals-lp/](https://andreyb.github.io/fcrivals-lp/)
+### Just built something on Lovable.dev? Import it in 2 minutes:
 
----
-
-## 🛠️ Development Setup
-
-### Prerequisites
-- Node.js 20+ and npm
-- Git
-- Docker (for dev container) or VS Code with Dev Containers extension
-
-### Option A: Dev Container (Recommended)
-This project includes a dev container configuration for consistent development environments.
-
-1. **Clone the repository:**
 ```bash
-git clone https://github.com/andreyb/fcrivals-lp.git
-cd fcrivals-lp
-```
+# 1. Export from Lovable.dev and extract to a folder
+# 2. Import with one command (replace 'b' with your variant name)
+npm run import b ./path/to/your/lovable-export
+npm run verify b
 
-2. **Open in VS Code and start dev container:**
-   - Open the project in VS Code
-   - VS Code will prompt to "Reopen in Container" or use `Ctrl+Shift+P` → "Dev Containers: Reopen in Container"
-   - The container will automatically set up Node.js 20 and configure git with your credentials
-
-3. **Install dependencies and start:**
-```bash
-npm install
+# 3. Test locally
 npm run dev
-```
+# Visit http://localhost:5173/b
 
-### Option B: Local Development
-1. **Clone and Install:**
-```bash
-git clone https://github.com/andreyb/fcrivals-lp.git
-cd fcrivals-lp
-npm install
-```
-
-2. **Start Development Server:**
-```bash
-npm run dev
-```
-
-The site will be available at `http://localhost:5173`
-
-### Dev Container Notes
-- **Git Configuration**: The dev container automatically configures git with the credentials specified in `.devcontainer/devcontainer.json`
-- **Isolated Environment**: The container provides a consistent Node.js 20 environment regardless of your host system
-- **Auto-setup**: Dependencies and git configuration are handled automatically on container creation
-
-### 3. Project Structure
-```
-src/
-├── components/          # React components
-│   ├── ui/             # shadcn/ui components
-│   ├── Header.tsx      # Site header
-│   ├── Hero.tsx        # Hero section
-│   └── ...
-├── pages/              # Page components
-│   ├── Index.tsx       # Homepage
-│   └── NotFound.tsx    # 404 page
-├── hooks/              # Custom React hooks
-├── lib/                # Utilities
-└── App.tsx            # Main app with routing
-```
-
-### 4. Available Scripts
-- `npm run dev` - Start development server
-- `npm run build` - Build for production
-- `npm run preview` - Preview production build locally
-- `npm run deploy` - Manual deployment to GitHub Pages
-
----
-
-## 🔐 Environment Variables & Secrets
-
-### Required Environment Variables
-The application uses the following environment variables for analytics and feature flagging:
-
-```bash
-VITE_PUBLIC_POSTHOG_KEY=your_posthog_project_key
-VITE_PUBLIC_POSTHOG_HOST=https://app.posthog.com
-```
-
-### Local Development
-For local development, create a `.env` file in the project root:
-
-```bash
-# .env
-VITE_PUBLIC_POSTHOG_KEY=phc_your_development_key
-VITE_PUBLIC_POSTHOG_HOST=https://app.posthog.com
-```
-
-⚠️ **Never commit `.env` files to version control**
-
-### GitHub Actions Secrets
-For automated deployments to work properly, configure the following secrets in your GitHub repository:
-
-1. Go to **Settings** → **Secrets and variables** → **Actions**
-2. Add the following **Repository secrets**:
-
-| Secret Name | Description | Required |
-|-------------|-------------|----------|
-| `VITE_PUBLIC_POSTHOG_KEY` | PostHog project API key | ✅ Yes |
-| `VITE_PUBLIC_POSTHOG_HOST` | PostHog API host URL | ✅ Yes |
-
-### PostHog Configuration
-- **Analytics**: Tracks user interactions (CTA clicks, page views)
-- **Feature Flags**: Powers A/B testing (currently testing hero headlines)
-- **Setup**: Requires PostHog project with configured feature flags
-
-For detailed PostHog implementation, see `docs/posthog-implementation.md`
-
----
-
-## 🚀 Deployment
-
-### Automated Deployment (Recommended)
-Every push to the `main` branch automatically triggers deployment via GitHub Actions:
-
-1. **Build Process**: Runs `vite build` to create optimized production files
-2. **SPA Routing**: Copies `index.html` to `404.html` for client-side routing fallback
-3. **Custom Domain**: Creates `CNAME` file with `start.fcrivals.com` for custom domain
-4. **Deploy**: Publishes to `gh-pages` branch using GitHub Pages
-
-**⏱️ Deployment Time**: ~2-3 minutes after push
-
-### Manual Deployment
-For immediate deployments or testing:
-
-```bash
+# 4. Deploy when ready
 npm run deploy
 ```
 
-This command performs the same steps as the automated workflow:
+**→ [Complete Import Guide](./IMPORT_GUIDE.md)** - Everything you need to know about importing variants
+
+## 🏗️ Repository Structure
+
+```
+src/
+├── variants/
+│   ├── a/              # Landing Page A (original, 100% protected)
+│   └── [your-variant]/ # Your imported variants (b, c, mobile, etc.)
+├── pages/              # Entry points for each variant
+├── analytics/          # Shared PostHog tracking system
+└── App.tsx            # Routing configuration
+```
+
+## 🌐 Live URLs
+
+- **Landing Page A**: [start.fcrivals.com/a](https://start.fcrivals.com/a) (original design)
+- **Your Variants**: `start.fcrivals.com/[variant-name]` (your imports)
+- **Root**: [start.fcrivals.com](https://start.fcrivals.com) (redirects to A)
+
+## 🛡️ Safety Guarantees
+
+- **Landing Page A is 100% protected** - never affected by your variant imports
+- **Complete isolation** - each variant can use different libraries, styling, components
+- **Independent analytics** - separate PostHog tracking for each variant
+- **Asset isolation** - no conflicts between variant assets
+
+## 📊 Built-in Analytics
+
+Every variant automatically tracks:
+- **Experiment views** - when users land on your variant
+- **CTA clicks** - conversion tracking for all call-to-action buttons  
+- **Page variants** - distinguishes which landing page design users saw
+- **A/B test data** - proper scientific data for conversion optimization
+
+## 🔧 Development Commands
+
+| Command | Description |
+|---------|-------------|
+| `npm run import [variant] [path]` | Import Lovable.dev project as new variant |
+| `npm run verify [variant]` | Verify variant setup and analytics |
+| `npm run dev` | Start development server |
+| `npm run build` | Build for production |
+| `npm run deploy` | Deploy to GitHub Pages |
+
+## 📚 Documentation
+
+- **[→ Import Guide](./IMPORT_GUIDE.md)** - Complete guide for importing Lovable.dev projects
+- **[→ Analytics Documentation](./docs/posthog-implementation.md)** - PostHog setup and tracking details
+- **[→ Analytics System](./src/analytics/README.md)** - Developer guide for the analytics utilities
+
+## 🎯 Supported Variant Types
+
+Import any type of landing page variant:
+
+- **A/B Testing**: `b`, `c`, `d` - different designs for the same audience
+- **Device-Specific**: `mobile`, `tablet`, `desktop` - responsive variants  
+- **Audience-Specific**: `consumer`, `enterprise`, `startup` - targeted messaging
+- **Seasonal**: `holiday`, `blackfriday`, `summer` - time-limited campaigns
+- **Geographic**: `us`, `eu`, `asia` - region-specific variants
+
+## 🚨 Important Notes
+
+### Assets Isolation
+- **✅ DO**: Put variant assets in `src/variants/[variant]/assets/`
+- **❌ DON'T**: Put variant assets in `public/` (reserved for shared files)
+
+### Landing Page A Protection  
+- **✅ SAFE**: Any changes to your variants
+- **❌ FORBIDDEN**: Never modify `src/variants/a/` or files it imports
+
+### PostHog Configuration
+After importing a variant, create experiment flags in PostHog:
+- **Flag names**: `LP-[variant]-*` pattern (e.g., `LP-B-headline`, `LP-B-cta`, `LP-B-features`)
+- **Type**: Multivariate with `control` and `test` variants
+- **Multiple tests**: Each variant can have multiple A/B tests for different elements
+
+## 🆘 Need Help?
+
+### Common Issues (with Cursor prompts):
+
+**Import errors?**
+```
+Ask Cursor: "I'm getting import errors in my variant. Please fix all import paths to use relative imports instead of absolute imports."
+```
+
+**Images not showing?**  
+```
+Ask Cursor: "My images aren't displaying in my variant. Please move all assets to the correct variant directory and update import paths."
+```
+
+**Analytics not working?**
+```
+Ask Cursor: "PostHog analytics aren't working in my variant. Please add proper experiment tracking using the 'LP-[VARIANT]-*' naming pattern (e.g., 'LP-B-headline', 'LP-B-cta') and page variant 'page-[VARIANT]'."
+```
+
+**Build failing?**
 ```bash
-vite build && echo 'start.fcrivals.com' > dist/CNAME && cp dist/index.html dist/404.html && gh-pages -d dist
+npm run build
+# Copy error message and ask:
+Ask Cursor: "My build is failing with this error: [PASTE ERROR]. Please fix the issue."
 ```
 
----
-
-## ⚙️ GitHub Actions Workflow
-
-**File**: `.github/workflows/deploy.yml`
-
-**Triggers**: Push to `main` branch
-
-**Steps**:
-1. Checkout repository
-2. Setup Node.js 20
-3. Install dependencies (`npm ci`)
-4. Build the site (`npm run build`)
-5. Copy fallback for SPA routing
-6. **Create CNAME for custom domain** ⚠️ *Critical for custom domain functionality*
-7. Deploy to GitHub Pages using `peaceiris/actions-gh-pages@v3`
-
----
-
-## 🔧 Configuration Details
-
-### Custom Domain Setup
-- **CNAME Record**: Points `start.fcrivals.com` to `andreyb.github.io`
-- **CNAME File**: Created during build process with domain name
-- **GitHub Pages**: Configured to serve from `gh-pages` branch
-
-### Vite Configuration
-```typescript
-// vite.config.ts
-export default defineConfig({
-  base: '/',  // Root path for custom domain
-  // ... other config
-})
+**Emergency reset?**
+```
+Ask Cursor: "Something went wrong with my variant import. Please reset variant [VARIANT] back to its original empty state so I can try importing again."
 ```
 
-### React Router
-- Uses `<BrowserRouter>` (no basename needed for custom domain)
-- 404 fallback handles client-side routing on page refresh
-- All routes defined in `App.tsx`
+## 🏆 Success Stories
 
-### Tech Stack
-- **Framework**: React 18 + TypeScript
-- **Build Tool**: Vite 5
-- **Styling**: Tailwind CSS + shadcn/ui components
-- **Routing**: React Router DOM
-- **Deployment**: GitHub Pages + GitHub Actions
+This repository structure has enabled:
+- **Fast iteration**: Import new designs in minutes, not hours
+- **Scientific testing**: Proper A/B test data with isolated analytics
+- **Risk-free experimentation**: Landing Page A always protected
+- **Unlimited creativity**: Each variant can use completely different approaches
 
 ---
 
-## 🔍 Troubleshooting
+**Ready to optimize your conversion rates?** 
 
-### Dev Container Issues
-1. **Container won't start**: Ensure Docker is running and VS Code has Dev Containers extension
-2. **Git not configured**: Rebuild container to apply git config from `devcontainer.json`
-3. **Node version mismatch**: Container uses Node.js 20 - rebuild if issues persist
-4. **File permission issues**: Try rebuilding container with "Dev Containers: Rebuild Container"
-
-### Environment Variables
-1. **PostHog not working locally**: Create `.env` file with PostHog credentials
-2. **Analytics not tracking**: Check browser console for PostHog errors
-3. **Feature flags not loading**: Verify PostHog secrets are set in GitHub repository settings
-4. **Build missing env vars**: Ensure GitHub Actions secrets are properly configured
-
-### Custom Domain Not Working
-1. Check if `CNAME` file exists in deployed site
-2. Verify DNS settings point to `andreyb.github.io`
-3. Check GitHub Pages settings in repository
-
-### Build Failures
-1. Check GitHub Actions logs in "Actions" tab
-2. Ensure all dependencies are properly installed
-3. Test build locally: `npm run build`
-4. Verify all required environment variables/secrets are set
-
-### SPA Routing Issues
-1. Verify `404.html` exists in deployed site
-2. Check that it's identical to `index.html`
-
----
-
-## ✅ Quick Start
-
-To update the site:
-1. Make your changes
-2. Push to `main` branch
-3. Wait ~2-3 minutes for automatic deployment
-4. Check [https://start.fcrivals.com/](https://start.fcrivals.com/)
-
-Everything else is handled automatically! 🎉
+**→ [Start with the Import Guide](./IMPORT_GUIDE.md)**

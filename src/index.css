@@ -1,4 +1,6 @@
 
+@import url('https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;700&family=Lalezar&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -84,5 +86,3 @@
     @apply rounded-lg shadow-lg border border-white/10;
   }
 }
-
-@import url('https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;700&family=Lalezar&display=swap');
