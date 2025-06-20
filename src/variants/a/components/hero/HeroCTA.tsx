@@ -20,7 +20,7 @@ const HeroCTA = () => {
     <div className="flex justify-center items-center">
       <Button
         size="lg"
-        className="w-full sm:w-auto button-glow px-8 py-6 text-base bg-primary hover:bg-primary/90"
+        className="w-auto button-glow px-8 py-6 text-base bg-primary hover:bg-primary/90"
         onClick={handleCTAClick}
       >
         Join Free <ArrowRight size={18} className="ml-2" />
