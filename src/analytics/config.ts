@@ -70,4 +70,13 @@ export const getConfigSummary = () => ({
     apiHost: import.meta.env.VITE_PUBLIC_POSTHOG_HOST || 'https://eu.i.posthog.com',
     hasCachedFlags: !!localStorage.getItem('posthog_feature_flags'),
     environment: import.meta.env.MODE
+});
+
+// Debug logging (added after the working config to avoid interference)
+console.log('🔍 PostHog Configuration:', {
+    hasKey: !!POSTHOG_KEY,
+    keyLength: POSTHOG_KEY?.length || 0,
+    host: import.meta.env.VITE_PUBLIC_POSTHOG_HOST || 'https://eu.i.posthog.com',
+    mode: import.meta.env.MODE,
+    timestamp: new Date().toISOString()
 }); 
