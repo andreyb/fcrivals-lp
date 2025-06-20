@@ -7,12 +7,7 @@
  * - PostHog options and callbacks
  */
 
-// Debug logging for build time
-console.log('🔍 Build-time environment check:', {
-    VITE_PUBLIC_POSTHOG_KEY: import.meta.env.VITE_PUBLIC_POSTHOG_KEY ? 'SET' : 'NOT_SET',
-    VITE_PUBLIC_POSTHOG_HOST: import.meta.env.VITE_PUBLIC_POSTHOG_HOST ? 'SET' : 'NOT_SET',
-    MODE: import.meta.env.MODE
-});
+
 
 // Ensure PostHog key exists
 export const POSTHOG_KEY = import.meta.env.VITE_PUBLIC_POSTHOG_KEY;
@@ -79,16 +74,3 @@ export const getConfigSummary = () => ({
     environment: import.meta.env.MODE
 });
 
-// Debug logging (added after the working config to avoid interference)
-console.log('🔍 PostHog Runtime Configuration:', {
-    hasKey: !!POSTHOG_KEY,
-    keyLength: POSTHOG_KEY?.length || 0,
-    actualKey: POSTHOG_KEY ? `${POSTHOG_KEY.substring(0, 8)}...` : 'undefined',
-    host: import.meta.env.VITE_PUBLIC_POSTHOG_HOST || 'https://eu.i.posthog.com',
-    mode: import.meta.env.MODE,
-    timestamp: new Date().toISOString(),
-    allEnvVars: {
-        VITE_PUBLIC_POSTHOG_KEY: import.meta.env.VITE_PUBLIC_POSTHOG_KEY ? 'SET' : 'NOT_SET',
-        VITE_PUBLIC_POSTHOG_HOST: import.meta.env.VITE_PUBLIC_POSTHOG_HOST ? 'SET' : 'NOT_SET'
-    }
-}); 
