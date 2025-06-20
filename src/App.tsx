@@ -3,7 +3,6 @@ import { Toaster as Sonner } from "./shared/ui/sonner";
 import { TooltipProvider } from "./shared/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import Index from "./pages/Index";
 import LandingPageA from "./pages/LandingPageA";
 import LandingPageB from "./pages/LandingPageB";
 import LandingPageC from "./pages/LandingPageC";
@@ -25,8 +24,6 @@ const App = () => (
           <Route path="/a" element={<LandingPageA />} />
           <Route path="/b" element={<LandingPageB />} />
           <Route path="/c" element={<LandingPageC />} />
-          {/* Keep the original Index route for reference */}
-          <Route path="/original" element={<Index />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
