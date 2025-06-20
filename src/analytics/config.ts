@@ -7,6 +7,13 @@
  * - PostHog options and callbacks
  */
 
+// Debug logging for build time
+console.log('🔍 Build-time environment check:', {
+    VITE_PUBLIC_POSTHOG_KEY: import.meta.env.VITE_PUBLIC_POSTHOG_KEY ? 'SET' : 'NOT_SET',
+    VITE_PUBLIC_POSTHOG_HOST: import.meta.env.VITE_PUBLIC_POSTHOG_HOST ? 'SET' : 'NOT_SET',
+    MODE: import.meta.env.MODE
+});
+
 // Ensure PostHog key exists
 export const POSTHOG_KEY = import.meta.env.VITE_PUBLIC_POSTHOG_KEY;
 
@@ -18,7 +25,7 @@ export const getBootstrapFlags = () => {
     try {
         const cached = localStorage.getItem('posthog_feature_flags');
         const cachedDistinctId = localStorage.getItem('posthog_distinct_id');
-        
+
         if (cached) {
             const flags = JSON.parse(cached);
             return {
@@ -73,10 +80,15 @@ export const getConfigSummary = () => ({
 });
 
 // Debug logging (added after the working config to avoid interference)
-console.log('🔍 PostHog Configuration:', {
+console.log('🔍 PostHog Runtime Configuration:', {
     hasKey: !!POSTHOG_KEY,
     keyLength: POSTHOG_KEY?.length || 0,
+    actualKey: POSTHOG_KEY ? `${POSTHOG_KEY.substring(0, 8)}...` : 'undefined',
     host: import.meta.env.VITE_PUBLIC_POSTHOG_HOST || 'https://eu.i.posthog.com',
     mode: import.meta.env.MODE,
-    timestamp: new Date().toISOString()
+    timestamp: new Date().toISOString(),
+    allEnvVars: {
+        VITE_PUBLIC_POSTHOG_KEY: import.meta.env.VITE_PUBLIC_POSTHOG_KEY ? 'SET' : 'NOT_SET',
+        VITE_PUBLIC_POSTHOG_HOST: import.meta.env.VITE_PUBLIC_POSTHOG_HOST ? 'SET' : 'NOT_SET'
+    }
 }); 

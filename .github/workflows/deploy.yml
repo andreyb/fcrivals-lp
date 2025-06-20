@@ -6,7 +6,9 @@ on:
       - main
 
 permissions:
-  contents: write
+  contents: read
+  pages: write
+  id-token: write
 
 jobs:
   build-and-deploy:
@@ -25,11 +27,26 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Debug environment variables
+        run: |
+          echo "🔍 Environment Variables Debug:"
+          echo "VITE_PUBLIC_POSTHOG_KEY is set: ${{ secrets.VITE_PUBLIC_POSTHOG_KEY != '' }}"
+          echo "VITE_PUBLIC_POSTHOG_HOST is set: ${{ secrets.VITE_PUBLIC_POSTHOG_HOST != '' }}"
+          echo "VITE_PUBLIC_POSTHOG_HOST: ${{ secrets.VITE_PUBLIC_POSTHOG_HOST }}"
+
       - name: Build the site
         run: npm run build
         env:
           VITE_PUBLIC_POSTHOG_KEY: ${{ secrets.VITE_PUBLIC_POSTHOG_KEY }}
           VITE_PUBLIC_POSTHOG_HOST: ${{ secrets.VITE_PUBLIC_POSTHOG_HOST }}
+
+      - name: Debug build output
+        run: |
+          echo "🔍 Checking built files for PostHog configuration:"
+          if [ -f "dist/assets/index-*.js" ]; then
+            echo "Searching for PostHog key in built files:"
+            grep -o "phc_[a-zA-Z0-9]*" dist/assets/index-*.js || echo "No PostHog key found in built files"
+          fi
 
       - name: Setup SPA routing
         run: |
@@ -39,9 +56,14 @@ jobs:
       - name: Create CNAME
         run: echo 'start.fcrivals.com' > dist/CNAME
 
-      - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v3
+      - name: Setup Pages
+        uses: actions/configure-pages@v4
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./dist
-          publish_branch: gh-pages
+          path: ./dist
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
